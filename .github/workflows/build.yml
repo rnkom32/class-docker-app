@@ -11,7 +11,7 @@ on:
   
 jobs:
   
-  build-scan-push:
+  build-scan-protect:
     
     name: Build and Scan Docker Images
     runs-on: ubuntu-latest
@@ -28,8 +28,9 @@ jobs:
       uses: crazy-max/ghaction-container-scan@v3
       with: 
         image: ${{env.DOCKER_USER}}/${{env.DOCKER_REPOSITORY}}:${{env.NODE_IMAGE_TAG}}
+        severity_threshold: CRITICAL
         annotations: true
-
+       
     - name: Push Image to Docker Hub    
       run: |
         docker login -u ${{env.DOCKER_USER}} -p ${{env.DOCKER_PASSWORD}}
